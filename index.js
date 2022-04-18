@@ -1,8 +1,6 @@
-// TODO: Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-// TODO: Create an array of questions for user input
 const questions = () => {
   return inquirer.prompt([
     {
@@ -39,7 +37,7 @@ const questions = () => {
       type: "list",
       name: "license",
       message: "What license does your project have?",
-      choices: ["Academic", "Apache", "GNU", "ISC", "MIT", "Mozilla", "Open"],
+      choices: ["Apache", "GNU", "ISC", "MIT", "Open"],
     },
     {
       type: "input",
@@ -54,10 +52,43 @@ const questions = () => {
   ]);
 };
 
-// TODO: Create a function to initialize app
+function generateMarkdown(answers) {
+  return ` # ${answers.title}
+  
+![badge](https://img.shields.io/badge/license-${answers.license}-success)
+
+## Description
+${answers.description}
+## Table of Contents
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+## Installation
+${answers.installation}
+## Usage
+${answers.usage}
+## License
+![badge](https://img.shields.io/badge/license-${answers.license}-success)
+
+This application is covered by the ${answers.license} license. 
+## Contributing
+${answers.contributors}
+## Tests
+${answers.test}
+## Questions
+
+Find me on GitHub: [${answers.username}](https://github.com/${answers.username})
+
+Email me with any questions: ${answers.email}
+`;
+}
+
 const init = () => {
   questions()
-    // Use writeFileSync method to use promises instead of a callback function
     .then((answers) =>
       fs.writeFileSync("sampleREADME.md", generateMarkdown(answers))
     )
@@ -65,5 +96,4 @@ const init = () => {
     .catch((err) => console.error(err));
 };
 
-// Function call to initialize app
 init();
